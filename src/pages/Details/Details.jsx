@@ -10,7 +10,7 @@ const Details = () => {
         <>
             {/* Top image */}
             <div className="p-0 top-image w-full" />
-            <div className='bg-white container mx-auto px-4'>
+            <div className='container mx-auto px-4'>
 
                 {/* Profile section */}
                 <Profile />
