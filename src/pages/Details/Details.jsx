@@ -1,4 +1,3 @@
-import Container from 'react-bootstrap/Container';
 import { NavLink } from 'react-router-dom';
 import Profile from '../../components/Profile';
 import AboutMe from '../../components/AboutMe';
@@ -10,8 +9,8 @@ const Details = () => {
     return (
         <>
             {/* Top image */}
-            <Container fluid className="p-0 top-image" />
-            <Container className='bg-white'>
+            <div className="p-0 top-image w-full" />
+            <div className='bg-white container mx-auto px-4'>
 
                 {/* Profile section */}
                 <Profile />
@@ -25,11 +24,11 @@ const Details = () => {
 
                 <Skills />
 
-                <div className="d-grid col-2 mx-auto my-4 text-center">
-                    <NavLink className="nav-link align-middle bg-dark text-white p-2 rounded" to="/preview">Preview</NavLink>
+                <div className="grid grid-cols-2 mx-auto my-4 text-center max-w-xs">
+                    <NavLink className="inline-flex items-center justify-center bg-black text-white p-2 rounded" to="/preview">Preview</NavLink>
                 </div>
 
-            </Container>
+            </div>
         </>
     )
 }

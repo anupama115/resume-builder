@@ -7,19 +7,19 @@ const RESUME_TEMPLATE = {
 	image: '/images/1.jpg',
 };
 
-// Presentational component for the template preview card
+// Template Card
 const TemplateCard = ({ template, onSelect }) => (
-	<div className="relative hidden md:block">
+	<div className="relative hidden md:block p-4 md:p-6">
 		<div className="bg-white rounded-xl shadow-2xl max-w-lg">
-			<div className="bg-gray-50">
+			<div>
 				<img src={template.image} alt={template.name} className="object-cover" />
 			</div>
-			<div className="p-4">
-				<h3 className="font-semibold text-gray-900">{template.name}</h3>
-				<p className="mt-1 text-sm text-gray-500">{template.description}</p>
+			<div className="p-4 bg-gray-100">
+				<h3 className="font-semibold text-gray-700">{template.name}</h3>
+				<p className="mt-1 text-sm text-gray-700 pb-3">{template.description}</p>
 				<button
 					onClick={onSelect}
-					className="inline-flex items-center rounded-md bg-blue-500 px-5 py-3 text-white text-sm font-medium"
+					className="inline-flex items-center rounded-md bg-gray-800 px-5 py-3 text-white text-sm font-medium"
 				>
 					Use this Template
 				</button>
@@ -51,7 +51,7 @@ const Home = () => {
 						<div className="mt-8">
 							<button
 								onClick={handleSelectTemplate}
-								className="inline-flex items-center rounded-md bg-black px-5 py-3 text-white text-sm font-medium"
+								className="inline-flex items-center rounded-md bg-gray-800 px-5 py-3 text-white text-sm font-medium"
 							>
 								Start with this template
 							</button>

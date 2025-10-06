@@ -1,8 +1,4 @@
 import { useState, useEffect } from 'react'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import { MdAddCircleOutline, MdEdit, MdClose, MdOutlineCancel } from 'react-icons/md';
 import { ImCheckmark, ImCross } from 'react-icons/im'
 import { useSelector, useDispatch } from 'react-redux';
@@ -59,15 +55,15 @@ function Skills() {
     }, [skills])
 
     return (
-        <Row className="justify-content-center mt-2">
-            <Col md={8} sm={12} className="d-flex justify-content-between align-items-center bg-light rounded">
-                <h5 className="m-0">Skills</h5>
-                {!isEdit && <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
-                {isEdit && <MdEdit size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
-            </Col>
-            <Col md={8} sm={12}>
-                <Row className="border-bottom pt-3">
-                    <Col md={12} className="d-flex flex-wrap">
+        <div className="flex justify-center mt-2">
+            <div className="w-full md:w-8/12">
+                <div className="flex justify-between items-center bg-gray-100 rounded px-3 py-2">
+                    <h5 className="m-0">Skills</h5>
+                    {!isEdit && <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
+                    {isEdit && <MdEdit size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
+                </div>
+                <div className="mt-2 border-b pt-3">
+                    <div className="flex flex-wrap">
                         {
                             skills.map((items, id) => {
                                 return (
@@ -75,48 +71,53 @@ function Skills() {
                                 )
                             })
                         }
-
-
-                    </Col>
-                </Row>
-
-            </Col>
-            <Modal show={show} onHide={handleClose} centered backdrop="static">
-                <Modal.Header>
-                    <Modal.Title>Skills</Modal.Title>
-                    <MdClose size={30} className="rounded edit cursor-pointer" onClick={handleClose} />
-                </Modal.Header>
-
-                <Modal.Body>
-                    <Form noValidate validated={validated} className="d-flex align-item-start mb-2" onSubmit={handleSkills}>
-                        <Form.Group className="">
-                            <Form.Control required type="text" size="sm" placeholder="Enter Skill" value={input} onChange={handleInput} />
-                        </Form.Group>
-                        <button type="submit" className="rounded edit cursor-pointer m-0 mx-2">
-                            Add Skill
-                        </button>
-                    </Form>
-                    <hr></hr>
-                    <div className="d-flex flex-wrap">
-                        {
-                            skills.map((items, id) => {
-                                return (
-                                    <p key={id} className="technology rounded ">{items} &nbsp; <MdOutlineCancel className="delete rounded" onClick={() => { handleAlert(id) }} /></p>
-                                )
-                            })
-                        }
                     </div>
-                </Modal.Body>
+                </div>
+            </div>
 
-            </Modal>
-            <Modal show={Alert} onHide={handleAlertClose} className="text-center" size="sm" centered>
-                <Modal.Body>
-                    <h4>Are you sure ?</h4>
-                    <ImCheckmark size={30} className="rounded edit cursor-pointer" onClick={() => { handleDelete(deleteId) }} />
-                    <ImCross size={25} className="rounded edit cursor-pointer" onClick={handleAlertClose} />
-                </Modal.Body>
-            </Modal>
-        </Row>
+            {show && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-white rounded shadow-lg w-11/12 md:w-2/3 max-w-2xl">
+                        <div className="flex justify-between items-center border-b px-4 py-2">
+                            <h3 className="font-semibold">Skills</h3>
+                            <MdClose size={30} className="rounded edit cursor-pointer" onClick={handleClose} />
+                        </div>
+                        <div className="p-4">
+                            <form noValidate className="flex items-start mb-2" onSubmit={handleSkills}>
+                                <div className="flex-1">
+                                    <input required type="text" placeholder="Enter Skill" value={input} onChange={handleInput} className="w-full border rounded p-2 text-sm" />
+                                </div>
+                                <button type="submit" className="rounded edit cursor-pointer m-0 mx-2">
+                                    Add Skill
+                                </button>
+                            </form>
+                            <hr />
+                            <div className="flex flex-wrap">
+                                {
+                                    skills.map((items, id) => {
+                                        return (
+                                            <p key={id} className="technology rounded ">{items} &nbsp; <MdOutlineCancel className="delete rounded" onClick={() => { handleAlert(id) }} /></p>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {Alert && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-white rounded shadow-lg w-80 text-center p-4">
+                        <h4>Are you sure ?</h4>
+                        <div className="flex justify-center gap-4 mt-2">
+                            <ImCheckmark size={30} className="rounded edit cursor-pointer" onClick={() => { handleDelete(deleteId) }} />
+                            <ImCross size={25} className="rounded edit cursor-pointer" onClick={handleAlertClose} />
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     )
 }
 

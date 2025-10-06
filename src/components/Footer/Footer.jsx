@@ -1,11 +1,8 @@
-import Container from 'react-bootstrap/Container';
-
 function Footer() {
     return (
-        // Container for the footer, with fluid layout
-        <Container fluid className="border-top mt-2 text-center bg-light text-dark py-3">
+        <div className="border-t mt-2 text-center bg-gray-100 text-gray-900 py-3">
             <p className="m-0">Resume Builder | copyright &copy;| Anupama</p>
-        </Container>
+        </div>
     )
 }
 

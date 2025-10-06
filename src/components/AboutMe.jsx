@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import { MdAddCircleOutline, MdEdit, MdClose } from 'react-icons/md';
 import { setAboutMe } from '../store/slices/AboutMeSlice';
 
@@ -35,41 +31,46 @@ function AboutMe() {
     const handleShow = () => setShow(true);
 
     return (
-        <Row className="justify-content-center mt-2">
-            <Col md={8} sm={12} className="d-flex justify-content-between align-items-center bg-light rounded">
-                <h5 className="m-0">About Me</h5>
-                {!isEdit && <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
-                {isEdit && <MdEdit size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
-            </Col>
-            <Col md={8} sm={12}>
-                {
-                    about &&
-                    <p className="py-2 text-break">
-                        {about}
-                    </p>
-                }
-            </Col>
-            <Modal show={show} onHide={handleClose} centered backdrop="static">
-                <Modal.Header>
-                    <Modal.Title>About Me</Modal.Title>
-                    <MdClose size={30} className="rounded edit cursor-pointer" onClick={handleClose} />
-                </Modal.Header>
+        <div className="flex justify-center mt-2">
+            <div className="w-full md:w-8/12">
+                <div className="flex justify-between items-center bg-gray-100 rounded px-3 py-2">
+                    <h5 className="m-0">About Me</h5>
+                    {!isEdit && <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
+                    {isEdit && <MdEdit size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
+                </div>
+                <div className="mt-2">
+                    {
+                        about &&
+                        <p className="py-2 break-words">
+                            {about}
+                        </p>
+                    }
+                </div>
+            </div>
 
-                <Modal.Body>
-                    <Form noValidate validated={validated}>
-                        <Form.Group className="mb-3">
-                            <Form.Control required as="textarea" rows={6} placeholder="Write about yourself" value={about} onChange={handleAbout} />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <button type="submit" className="rounded edit px-2 cursor-pointer" onClick={handleClose}>
-                        Save Changes
-                    </button>
-                </Modal.Footer>
-            </Modal>
-        </Row>
+            {show && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-white rounded shadow-lg w-11/12 md:w-2/3 max-w-2xl">
+                        <div className="flex justify-between items-center border-b px-4 py-2">
+                            <h3 className="font-semibold">About Me</h3>
+                            <MdClose size={30} className="rounded edit cursor-pointer" onClick={handleClose} />
+                        </div>
+                        <div className="p-4">
+                            <form noValidate>
+                                <div className="mb-3">
+                                    <textarea required rows={6} placeholder="Write about yourself" value={about} onChange={handleAbout} className="w-full border rounded p-2" />
+                                </div>
+                            </form>
+                        </div>
+                        <div className="flex justify-end gap-2 border-t px-4 py-2">
+                            <button type="button" className="rounded edit px-2 cursor-pointer" onClick={handleClose}>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     )
 }
 

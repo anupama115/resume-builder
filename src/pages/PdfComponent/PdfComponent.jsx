@@ -1,190 +1,108 @@
-import { Stack } from 'react-bootstrap'
-import { BsLinkedin, BsGithub, BsGlobe } from 'react-icons/bs'
-import { GiGraduateCap } from 'react-icons/gi'
-import { HiLocationMarker, HiOfficeBuilding, HiOutlineMail, HiPhone } from 'react-icons/hi'
-import jsPDF from 'jspdf';
-import html2canvas from "html2canvas";
-
-import { useSelector } from 'react-redux';
+import jsPDF from 'jspdf'
+import html2canvas from "html2canvas"
+import { useSelector } from 'react-redux'
 
 function PdfComponent() {
+    const { profile, file, aboutMe, experience, education, skills } = useSelector(state => state)
 
-    const { profile, file, aboutMe, experience, education, skills } = useSelector(state => state) //object destructuring
-
-
-    const printDocument = () => {
-        const input = document.getElementById('divToPrint');
-        html2canvas(input)
-            .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'pt', 'a4', false);
-                pdf.addImage(imgData, 'PNG', 0, 0, 600, 0, undefined, false);
-                pdf.save("Resume.pdf");
-            })
-            ;
-    };
-
-    const GetIcon = (icon) => {
-        switch (icon.icon) {
-            case "HiOutlineMail":
-                return <HiOutlineMail size={30} />
-            case "HiPhone":
-                return <HiPhone size={30} />
-            case "BsLinkedin":
-                return <BsLinkedin size={30} />
-            case "BsGithub":
-                return <BsGithub size={30} />
-            case "BsGlobe":
-                return <BsGlobe size={30} />
-            default:
-                return "●"
-        }
-    }
-    const GetLinks = () => {
-        const list = [];
-        if (profile.email) {
-            list.push({
-                icon: "HiOutlineMail",
-                link: profile.email,
-            });
-        }
-        if (profile.contact) {
-            list.push({
-                icon: "HiPhone",
-                link: profile.contact,
-            });
-        }
-        if (profile.linkedin) {
-            list.push({
-                icon: "BsLinkedin",
-                link: profile.linkedin,
-            });
-        }
-        if (profile.github) {
-            list.push({
-                icon: "BsGithub",
-                link: profile.github,
-            });
-        }
-        if (profile.website) {
-            list.push({
-                icon: "BsGlobe",
-                link: profile.website,
-            });
-        }
-
-        return (
-            list.map((item, id) => {
-                return (
-                    <div className={id % 2 === 0 ? "d-flex aligh-items-start align-items-center bg-2 text-white p-3" : "d-flex aligh-items-start align-items-center bg-3 text-white p-3"} key={id}>
-                        <p className="m-0"><GetIcon icon={item.icon} /></p><span className="mx-2"></span><p className="m-0">{item.link}</p>
-                    </div>
-                )
-            })
-        )
-
+    const downloadPdf = async () => {
+        const input = document.getElementById('divToPrint')
+        const canvas = await html2canvas(input, { scale: 2, backgroundColor: '#ffffff' })
+        const pdf = new jsPDF('p', 'pt', 'a4')
+        const pdfWidth = pdf.internal.pageSize.getWidth()
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdfWidth, pdfHeight)
+        pdf.save('Resume.pdf')
     }
 
     return (
         <>
-
-            <div className="container d-flex justify-content-center p-4">
-
-                <div className="row pdf bg-light" id="divToPrint" size="A4">
-
-                    <div className="d-flex align-items-center justify-content-center col-md-5 bg-1 p-0 py-2">
-                        <div>
-                            <div className="d-flex justify-content-center">
-                                <img src={file} className="pdf-profile-image" alt="..."></img>
+            <div className="container mx-auto flex justify-center p-4">
+                <div className="w-full max-w-5xl shadow-lg rounded-lg overflow-hidden bg-white" id="divToPrint">
+                    <div className="grid grid-cols-1 md:grid-cols-12">
+                        {/* Left column */}
+                        <div className="md:col-span-4 bg-gray-50 text-gray-800 p-6 space-y-6">
+                            <div className="flex flex-col items-center text-center">
+                                <img src={file} className="pdf-profile-image rounded-full" alt="profile" />
+                                <span className="font-bold mt-3 text-2xl">{profile.name}</span>
+                                <p className="text-gray-600">{profile.tagline}</p>
+                                <p className="m-0 text-gray-700">{profile.position}</p>
+                                <p className="m-0 text-gray-700">{profile.location}</p>
                             </div>
 
-                            <Stack className="text-center">
-                                <span className="font-bold m-2 fs-3 ">{profile.name}</span>
-                                <p>{profile.tagline}</p>
-                                <p className="m-0"><HiOfficeBuilding size={20} /> {profile.position}</p>
-                                <p><HiLocationMarker size={20} /> {profile.location}</p>
+                            {/* Contact */}
+                            <div className="space-y-2">
+                                <h4 className="uppercase text-sm font-semibold text-gray-700">Contact</h4>
+                                {profile.email && (<p className="m-0 break-all">{profile.email}</p>)}
+                                {profile.contact && (<p className="m-0 break-all">{profile.contact}</p>)}
+                                {profile.linkedin && (
+                                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="underline break-all">{profile.linkedin}</a>
+                                )}
+                                {profile.github && (
+                                    <a href={profile.github} target="_blank" rel="noreferrer" className="underline break-all">{profile.github}</a>
+                                )}
+                                {profile.website && (
+                                    <a href={profile.website} target="_blank" rel="noreferrer" className="underline break-all">{profile.website}</a>
+                                )}
+                            </div>
 
-                            </Stack>
-                            <br></br>
-                            <GetLinks />
-
-                            <br></br>
-                            <Stack className="p-3">
-                                <h4 className="title">Skills</h4>
-                                <div className="d-flex flex-wrap">
-                                    {
-                                        skills.map((items, id) => {
-                                            return (
-                                                <p className="technology rounded" key={id}>{items}</p>
-                                            )
-                                        })
-                                    }
+                            {/* Skills */}
+                            <div className="space-y-2">
+                                <h4 className="uppercase tracking-wider text-sm font-semibold text-gray-700">Skills</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {skills.map((skill, skillIndex) => (
+                                        <span className="rounded px-3 py-1 text-sm bg-gray-200 text-gray-800" key={skillIndex}>{skill}</span>
+                                    ))}
                                 </div>
-                            </Stack>
-                        </div>
-
-                    </div>
-                    <div className="d-flex align-items-center col-md-7 p-0 py-4">
-                        <div>
-                            <div className="px-4 py-1">
-                                <h4 className="title">About Me</h4>
-                                <p className="text-break">
-                                    {aboutMe}
-                                </p>
-                                <hr></hr>
-                            </div>
-
-                            <div className="px-4">
-                                <h4 className="title">Experience</h4>
-                                {
-                                    experience.map((item, id) => {
-                                        return (
-                                            <div className="d-flex justify-content-start py-1" key={id}>
-                                                <HiOfficeBuilding size={30} />
-                                                <div className="px-3">
-                                                    <h4>{item.title}</h4>
-                                                    <p className="m-0">{item.company} • {item.startMonth} {item.startYear} {`${item.isWorking ? " - Present" : " - " + item.endMonth + " " + item.endYear}`}</p>
-                                                    <p className="m-0">{item.location}</p>
-                                                    <p>{item.description}</p>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-
-                                <hr></hr>
-                            </div>
-
-                            <div className="px-4">
-                                <h4 className="title">Education</h4>
-                                {
-                                    education.map((item, id) => {
-                                        return (
-                                            <div className="d-flex justify-content-start py-1" key={id}>
-                                                <GiGraduateCap size={40} />
-                                                <div className="px-3">
-                                                    <h4>{item.institute}</h4>
-                                                    <p className="m-0">{item.degree} • {item.fieldOfStudy}</p>
-                                                    <p>{item.startYear} - {item.endYear} • Grade: {item.grade}</p>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-
-
                             </div>
                         </div>
 
-                    </div>
+                        {/* about, experience, education */}
+                        <div className="md:col-span-8 p-6 space-y-6 text-gray-900">
+                            <div>
+                                <h3 className="uppercase tracking-wider text-gray-900">About Me</h3>
+                                <div className="h-0.5 bg-gray-200 my-2"></div>
+                                <p className="break-words leading-relaxed text-gray-700">{aboutMe}</p>
+                            </div>
 
+                            <div>
+                                <h3 className="uppercase tracking-wider text-gray-900">Experience</h3>
+                                <div className="h-0.5 bg-gray-200 my-2"></div>
+                                <div className="space-y-4">
+                                    {experience.map((exp, expIndex) => (
+                                        <div key={expIndex}>
+                                            <h4 className="font-semibold text-lg">{exp.title}</h4>
+                                            <p className="m-0 text-sm text-gray-600">
+                                                {exp.company} • {exp.startMonth} {exp.startYear}
+                                                {exp.isWorking ? ' - Present' : ` - ${exp.endMonth} ${exp.endYear}`}
+                                            </p>
+                                            {exp.location && <p className="m-0 text-sm text-gray-600">{exp.location}</p>}
+                                            {exp.description && <p className="mt-1 text-gray-700 leading-relaxed">{exp.description}</p>}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 className="uppercase tracking-wider text-gray-900">Education</h3>
+                                <div className="h-0.5 bg-gray-200 my-2"></div>
+                                <div className="space-y-4">
+                                    {education.map((edu, eduIndex) => (
+                                        <div key={eduIndex}>
+                                            <h4 className="font-semibold text-lg">{edu.institute}</h4>
+                                            <p className="m-0 text-sm text-gray-600">{edu.degree} • {edu.fieldOfStudy}</p>
+                                            <p className="m-0 text-sm text-gray-600">{edu.startYear} - {edu.endYear} • Grade: {edu.grade}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-            <div className="d-grid col-2 mx-auto mt-4">
-                <button className="nav-link align-middle bg-dark text-white p-2 rounded" onClick={printDocument}>Download</button>
+            <div className="flex justify-center mt-4">
+                <button className="inline-flex items-center bg-black text-white px-4 py-2 rounded" onClick={downloadPdf}>Download</button>
             </div>
-
         </>
     )
 }
