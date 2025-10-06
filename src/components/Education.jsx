@@ -1,8 +1,4 @@
 import { useState } from 'react'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import { MdAddCircleOutline, MdEdit, MdClose, MdDelete } from 'react-icons/md';
 import { GiGraduateCap } from 'react-icons/gi';
 import { ImCheckmark, ImCross } from 'react-icons/im'
@@ -15,14 +11,12 @@ function Education() {
   const [show, setShow] = useState(false);
   const [Alert, setAlert] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const [validated, setValidated] = useState(false);
 
 
   const educationList = useSelector(state => state.education)
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    setValidated(false);
     setShow(false);
     setForm({
       id: "",
@@ -64,30 +58,23 @@ function Education() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const x = event.currentTarget;
-    if (!x.checkValidity()) {
-      setValidated(true);
+    if (form.isEdit) {
+      dispatch(editEducation(form))
     }
     else {
-      if (form.isEdit) {
-        dispatch(editEducation(form))
-      }
-      else {
-        dispatch(addEducation(form));
-      }
-      setShow(false);
-      setForm({
-        id: "",
-        institute: "",
-        degree: "",
-        grade: "",
-        fieldOfStudy: "",
-        startYear: "",
-        endYear: "",
-        isEdit: false
-      })
+      dispatch(addEducation(form));
     }
-
+    setShow(false);
+    setForm({
+      id: "",
+      institute: "",
+      degree: "",
+      grade: "",
+      fieldOfStudy: "",
+      startYear: "",
+      endYear: "",
+      isEdit: false
+    })
   }
 
   const handleEdit = (id) => {
@@ -104,119 +91,140 @@ function Education() {
   }
 
   return (
-    <Row className="justify-content-center mt-2">
-      <Col md={8} sm={12} className="d-flex justify-content-between align-items-center bg-dark rounded text-white">
-        <h5 className="m-0">Education</h5>
-        <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />
-      </Col>
-      <Col md={8} sm={12}>
-        {educationList &&
-          educationList.map((item, id) => {
-            return (
-              <Row className="border-bottom pt-3" key={id}>
-
-                <Col md={10} className="d-flex justify-content-start">
-                  <GiGraduateCap size={50} className="rounded color-blue bg-grey p-1 shadow-sm" />
-                  <div className="px-3">
-                    <h5 className="m-0">{item.institute}</h5>
-                    <p className="text-muted m-0">{item.degree} • {item.fieldOfStudy}</p>
-                    <p className="text-muted">{item.startYear} - {item.endYear} • Grade: {item.grade}</p>
+    <div className="flex justify-center mt-4">
+      <div className="w-full max-w-4xl">
+        <div className="flex justify-between items-center bg-gray-800 rounded-lg text-white p-4 mb-4">
+          <h5 className="text-lg font-semibold m-0">Education</h5>
+          <MdAddCircleOutline size={30} className="text-gray-300 hover:text-blue-400 cursor-pointer transition-colors duration-200" onClick={handleShow} />
+        </div>
+        <div className="w-full">
+          {educationList &&
+            educationList.map((item, id) => {
+              return (
+                <div className="border-b border-gray-200 pt-4 pb-4" key={id}>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-start space-x-4 flex-1">
+                      <div className="bg-green-100 p-3 rounded-lg shadow-sm">
+                        <GiGraduateCap size={24} className="text-green-600" />
+                      </div>
+                      <div className="flex-1">
+                        <h5 className="text-lg font-semibold text-gray-800 m-0">{item.institute}</h5>
+                        <p className="text-gray-600 m-0 text-sm">{item.degree} • {item.fieldOfStudy}</p>
+                        <p className="text-gray-600 text-sm">{item.startYear} - {item.endYear} • Grade: {item.grade}</p>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2 ml-4">
+                      <MdEdit size={20} className="text-gray-500 hover:text-blue-500 cursor-pointer transition-colors duration-200" onClick={() => { handleEdit(id) }} />
+                      <MdDelete size={20} className="text-gray-500 hover:text-red-500 cursor-pointer transition-colors duration-200" onClick={() => { handleAlert(id) }} />
+                    </div>
                   </div>
-
-                </Col>
-                <Col md={2}>
-                  <div className="d-flex flex-wrap justify-content-end">
-                    <MdEdit size={30} className="rounded edit cursor-pointer" onClick={() => { handleEdit(id) }} />
-                    <MdDelete size={30} className="rounded edit cursor-pointer" onClick={() => { handleAlert(id) }} />
-
+                </div>
+              )
+            })
+          }
+        </div>
+        {/* Education Modal */}
+        {show && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center p-6 border-b">
+                <h3 className="text-lg font-semibold text-gray-800">Education</h3>
+                <MdClose size={24} className="text-gray-500 hover:text-gray-700 cursor-pointer" onClick={handleClose} />
+              </div>
+              <div className="p-6">
+                <form noValidate onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">School / College</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="institute" 
+                      placeholder="Ex: Government Engineering College" 
+                      value={form.institute} 
+                      onChange={handleForm}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
                   </div>
-                </Col>
-
-              </Row>
-            )
-          })
-        }
-
-      </Col>
-      <Modal show={show} onHide={handleClose} centered scrollable={true} backdrop="static">
-        <Modal.Header>
-          <Modal.Title>Education</Modal.Title>
-          <MdClose size={30} className="rounded edit" onClick={handleClose} />
-        </Modal.Header>
-
-        <Modal.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>School / College</Form.Label>
-              <Form.Control required type="text" name="institute" size="sm" placeholder="Ex: Government Engineering College" value={form.institute} onChange={handleForm} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Degree</Form.Label>
-              <Form.Control required type="text" name="degree" size="sm" placeholder="Ex: Bachelor of Engineering" value={form.degree} onChange={handleForm} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Field of study</Form.Label>
-              <Form.Control required type="text" name="fieldOfStudy" size="sm" placeholder="Ex: Computer Engineering" value={form.fieldOfStudy} onChange={handleForm} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Row>
-                <Col>
-                  <Row>
-                    <Form.Label>Start - Year</Form.Label>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <select title={form.startYear} name="startYear" value={form.startYear} onChange={handleForm} className="form-select">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Degree</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="degree" 
+                      placeholder="Ex: Bachelor of Engineering" 
+                      value={form.degree} 
+                      onChange={handleForm}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Field of study</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="fieldOfStudy" 
+                      placeholder="Ex: Computer Engineering" 
+                      value={form.fieldOfStudy} 
+                      onChange={handleForm}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Start Year</label>
+                      <select name="startYear" value={form.startYear} onChange={handleForm} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <Years />
                       </select>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col>
-                  <Row>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">End Year</label>
+                      <select name="endYear" value={form.endYear} onChange={handleForm} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <Years />
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Grade</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="grade" 
+                      placeholder="Ex: 8.5/10 CGPA" 
+                      value={form.grade} 
+                      onChange={handleForm}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div className="flex justify-end pt-4">
+                    <button 
+                      type="submit" 
+                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
 
-                    <Col>
-                      <Row>
-                        <Form.Label>End - Year</Form.Label>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <select title={form.endYear} name="endYear" value={form.endYear} onChange={handleForm} disabled={form.isWorking} className="form-select">
-                            <Years />
-                          </select>
-                        </Col>
-                      </Row>
-
-                    </Col>
-
-                  </Row>
-
-
-
-
-                </Col>
-              </Row>
-
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Grade</Form.Label>
-              <Form.Control required type="text" name="grade" size="sm" placeholder="Ex: 8.5/10 CGPA" value={form.grade} onChange={handleForm} />
-            </Form.Group>
-            <button type="submit" className="rounded edit px-2">
-              Save Changes
-            </button>
-
-          </Form>
-        </Modal.Body>
-      </Modal>
-      <Modal show={Alert} onHide={handleAlertClose} className="text-center" size="sm" centered>
-        <Modal.Body>
-          <h4>Are you sure ?</h4>
-          <ImCheckmark size={30} className="rounded edit" onClick={() => { handleDelete(deleteId) }} />
-          <ImCross size={25} className="rounded edit" onClick={handleAlertClose} />
-        </Modal.Body>
-      </Modal>
-    </Row>
+        {/* Delete Confirmation Modal */}
+        {Alert && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-xl max-w-sm w-full mx-4">
+              <div className="p-6 text-center">
+                <h4 className="text-lg font-semibold text-gray-800 mb-4">Are you sure?</h4>
+                <div className="flex justify-center space-x-4">
+                  <ImCheckmark size={30} className="text-green-500 hover:text-green-600 cursor-pointer transition-colors duration-200" onClick={() => { handleDelete(deleteId) }} />
+                  <ImCross size={25} className="text-red-500 hover:text-red-600 cursor-pointer transition-colors duration-200" onClick={handleAlertClose} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 

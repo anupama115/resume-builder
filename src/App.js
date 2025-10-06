@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { routes } from './routes';
 
 function App() {
