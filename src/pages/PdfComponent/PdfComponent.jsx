@@ -1,3 +1,4 @@
+import { Stack } from 'react-bootstrap'
 import { BsLinkedin, BsGithub, BsGlobe } from 'react-icons/bs'
 import { GiGraduateCap } from 'react-icons/gi'
 import { HiLocationMarker, HiOfficeBuilding, HiOutlineMail, HiPhone } from 'react-icons/hi'
@@ -75,7 +76,7 @@ function PdfComponent() {
         return (
             list.map((item, id) => {
                 return (
-                    <div className={`flex items-center ${id % 2 === 0 ? "bg-gray-600" : "bg-gray-700"} text-white p-3`} key={id}>
+                    <div className={id % 2 === 0 ? "d-flex aligh-items-start align-items-center bg-2 text-white p-3" : "d-flex aligh-items-start align-items-center bg-3 text-white p-3"} key={id}>
                         <p className="m-0"><GetIcon icon={item.icon} /></p><span className="mx-2"></span><p className="m-0">{item.link}</p>
                     </div>
                 )
@@ -87,60 +88,61 @@ function PdfComponent() {
     return (
         <>
 
-            <div className="flex justify-center p-4">
+            <div className="container d-flex justify-content-center p-4">
 
-                <div className="pdf bg-gray-800 text-white flex" id="divToPrint" size="A4">
+                <div className="row pdf bg-light" id="divToPrint" size="A4">
 
-                    <div className="flex items-center justify-center w-2/5 bg-amber-50 p-0 py-2">
+                    <div className="d-flex align-items-center justify-content-center col-md-5 bg-1 p-0 py-2">
                         <div>
-                            <div className="flex justify-center">
+                            <div className="d-flex justify-content-center">
                                 <img src={file} className="pdf-profile-image" alt="..."></img>
                             </div>
 
-                            <div className="text-center space-y-2">
-                                <span className="text-2xl font-bold m-2">{profile.name}</span>
+                            <Stack className="text-center">
+                                <span className="font-bold m-2 fs-3 ">{profile.name}</span>
                                 <p>{profile.tagline}</p>
-                                <p className="m-0 flex items-center justify-center"><HiOfficeBuilding size={20} className="mr-2" /> {profile.position}</p>
-                                <p className="flex items-center justify-center"><HiLocationMarker size={20} className="mr-2" /> {profile.location}</p>
-                            </div>
+                                <p className="m-0"><HiOfficeBuilding size={20} /> {profile.position}</p>
+                                <p><HiLocationMarker size={20} /> {profile.location}</p>
+
+                            </Stack>
                             <br></br>
                             <GetLinks />
 
                             <br></br>
-                            <div className="p-3">
-                                <h4 className="font-semibold text-lg mb-2">Skills</h4>
-                                <div className="flex flex-wrap gap-2">
+                            <Stack className="p-3">
+                                <h4 className="title">Skills</h4>
+                                <div className="d-flex flex-wrap">
                                     {
                                         skills.map((items, id) => {
                                             return (
-                                                <span className="inline-block px-3 py-1 bg-gray-200 text-gray-800 rounded text-sm" key={id}>{items}</span>
+                                                <p className="technology rounded" key={id}>{items}</p>
                                             )
                                         })
                                     }
                                 </div>
-                            </div>
+                            </Stack>
                         </div>
 
                     </div>
-                    <div className="flex items-center w-3/5 p-0 py-4">
+                    <div className="d-flex align-items-center col-md-7 p-0 py-4">
                         <div>
                             <div className="px-4 py-1">
-                                <h4 className="font-semibold text-lg mb-2">About Me</h4>
-                                <p className="break-words">
+                                <h4 className="title">About Me</h4>
+                                <p className="text-break">
                                     {aboutMe}
                                 </p>
-                                <hr className="my-4"></hr>
+                                <hr></hr>
                             </div>
 
                             <div className="px-4">
-                                <h4 className="font-semibold text-lg mb-2">Experience</h4>
+                                <h4 className="title">Experience</h4>
                                 {
                                     experience.map((item, id) => {
                                         return (
-                                            <div className="flex justify-start py-1" key={id}>
-                                                <HiOfficeBuilding size={30} className="mr-3 mt-1" />
+                                            <div className="d-flex justify-content-start py-1" key={id}>
+                                                <HiOfficeBuilding size={30} />
                                                 <div className="px-3">
-                                                    <h4 className="text-lg font-medium">{item.title}</h4>
+                                                    <h4>{item.title}</h4>
                                                     <p className="m-0">{item.company} • {item.startMonth} {item.startYear} {`${item.isWorking ? " - Present" : " - " + item.endMonth + " " + item.endYear}`}</p>
                                                     <p className="m-0">{item.location}</p>
                                                     <p>{item.description}</p>
@@ -150,18 +152,18 @@ function PdfComponent() {
                                     })
                                 }
 
-                                <hr className="my-4"></hr>
+                                <hr></hr>
                             </div>
 
                             <div className="px-4">
-                                <h4 className="font-semibold text-lg mb-2">Education</h4>
+                                <h4 className="title">Education</h4>
                                 {
                                     education.map((item, id) => {
                                         return (
-                                            <div className="flex justify-start py-1" key={id}>
-                                                <GiGraduateCap size={40} className="mr-3 mt-1" />
+                                            <div className="d-flex justify-content-start py-1" key={id}>
+                                                <GiGraduateCap size={40} />
                                                 <div className="px-3">
-                                                    <h4 className="text-lg font-medium">{item.institute}</h4>
+                                                    <h4>{item.institute}</h4>
                                                     <p className="m-0">{item.degree} • {item.fieldOfStudy}</p>
                                                     <p>{item.startYear} - {item.endYear} • Grade: {item.grade}</p>
                                                 </div>
@@ -179,8 +181,8 @@ function PdfComponent() {
                 </div>
 
             </div>
-            <div className="flex justify-center mt-4">
-                <button className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200" onClick={printDocument}>Download</button>
+            <div className="d-grid col-2 mx-auto mt-4">
+                <button className="nav-link align-middle bg-dark text-white p-2 rounded" onClick={printDocument}>Download</button>
             </div>
 
         </>
