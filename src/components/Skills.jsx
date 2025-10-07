@@ -55,12 +55,17 @@ function Skills() {
     }, [skills])
 
     return (
-        <div className="flex justify-center mt-2">
-            <div className="w-full md:w-8/12">
-                <div className="flex justify-between items-center bg-gray-100 rounded px-3 py-2">
-                    <h5 className="m-0">Skills</h5>
-                    {!isEdit && <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
-                    {isEdit && <MdEdit size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
+        <div className="w-full max-w-2xl mx-auto p-4">
+            <div className="bg-white border rounded-lg p-4">
+                <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-lg font-medium">Skills</h3>
+                    <button
+                        onClick={handleShow}
+                        className="flex items-center gap-1 text-blue-600 hover:text-blue-800"
+                    >
+                        <MdAddCircleOutline size={20} />
+                        Add
+                    </button>
                 </div>
                 <div className="mt-2 border-b pt-3">
                     <div className="flex flex-wrap">
@@ -76,41 +81,48 @@ function Skills() {
             </div>
 
             {show && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white rounded shadow-lg w-11/12 md:w-2/3 max-w-2xl">
-                        <div className="flex justify-between items-center border-b px-4 py-2">
-                            <h3 className="font-semibold">Skills</h3>
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50" onClick={handleClose}></div>
+                    <div className="relative bg-white rounded shadow-lg w-11/12 md:w-2/3 max-h-[80vh] overflow-y-auto">
+                        <div className="flex items-center justify-between border-b p-3">
+                            <h3 className="text-lg font-semibold">Skills</h3>
                             <MdClose size={30} className="rounded edit cursor-pointer" onClick={handleClose} />
                         </div>
                         <div className="p-4">
-                            <form noValidate className="flex items-start mb-2" onSubmit={handleSkills}>
-                                <div className="flex-1">
-                                    <input required type="text" placeholder="Enter Skill" value={input} onChange={handleInput} className="w-full border rounded p-2 text-sm" />
+                            <form noValidate onSubmit={handleSkills}>
+                                <div className="flex items-start mb-3 gap-2">
+                                    <div className="flex-1">
+                                        <input required type="text" placeholder="Enter Skill" value={input} onChange={handleInput} className="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <button type="button" onClick={handleSkills} className="rounded px-3 py-2 bg-black text-white">
+                                        Save Changes
+                                    </button>
                                 </div>
-                                <button type="submit" className="rounded edit cursor-pointer m-0 mx-2">
-                                    Add Skill
-                                </button>
+                                {validated && (
+                                    <p className="mt-2 text-sm text-red-600">Please fill all required fields.</p>
+                                )}
+                                <hr />
+                                <div className="flex flex-wrap mt-3">
+                                    {
+                                        skills.map((items, id) => {
+                                            return (
+                                                <p key={id} className="technology rounded ">{items} &nbsp; <MdOutlineCancel className="delete rounded" onClick={() => { handleAlert(id) }} /></p>
+                                            )
+                                        })
+                                    }
+                                </div>
                             </form>
-                            <hr />
-                            <div className="flex flex-wrap">
-                                {
-                                    skills.map((items, id) => {
-                                        return (
-                                            <p key={id} className="technology rounded ">{items} &nbsp; <MdOutlineCancel className="delete rounded" onClick={() => { handleAlert(id) }} /></p>
-                                        )
-                                    })
-                                }
-                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
             {Alert && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white rounded shadow-lg w-80 text-center p-4">
-                        <h4>Are you sure ?</h4>
-                        <div className="flex justify-center gap-4 mt-2">
+                <div className="fixed inset-0 z-50 flex items-center justify-center text-center">
+                    <div className="absolute inset-0 bg-black/50" onClick={handleAlertClose}></div>
+                    <div className="relative bg-white rounded shadow-lg w-11/12 sm:w-96 p-6">
+                        <h4 className="text-lg font-semibold mb-4">Are you sure ?</h4>
+                        <div className="flex items-center justify-center gap-6">
                             <ImCheckmark size={30} className="rounded edit cursor-pointer" onClick={() => { handleDelete(deleteId) }} />
                             <ImCross size={25} className="rounded edit cursor-pointer" onClick={handleAlertClose} />
                         </div>
