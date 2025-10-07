@@ -1,77 +1,51 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { MdAddCircleOutline, MdEdit, MdClose } from 'react-icons/md';
+import { MdEdit } from 'react-icons/md';
 import { setAboutMe } from '../store/slices/AboutMeSlice';
 
 function AboutMe() {
-
-    const [show, setShow] = useState(false);
-    const [isEdit, setIsEdit] = useState(false);
-    const [validated, setValidated] = useState(false);
-    // Retrieve the 'about' data from the Redux store
-    const about = useSelector(state => state.aboutMe)
+    const [isEditing, setIsEditing] = useState(false);
+    const about = useSelector(state => state.aboutMe);
     const dispatch = useDispatch();
 
-    const handleAbout = (e) => {
-        const valid = e.currentTarget;
-        if (!valid.checkValidity()) {
-            setValidated(true);
-            setIsEdit(false)
-        }
-        else {
-            setIsEdit(true)
-        }
-        dispatch(setAboutMe(e.target.value))
-    }
+    const handleSave = () => {
+        setIsEditing(false);
+    };
 
-    const handleClose = () => {
-        setShow(false);
-        setValidated(false);
-    }
-    const handleShow = () => setShow(true);
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
 
     return (
-        <div className="flex justify-center mt-2">
-            <div className="w-full md:w-8/12">
-                <div className="flex justify-between items-center bg-gray-100 rounded px-3 py-2">
-                    <h5 className="m-0">About Me</h5>
-                    {!isEdit && <MdAddCircleOutline size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
-                    {isEdit && <MdEdit size={30} className="rounded edit cursor-pointer" onClick={handleShow} />}
+        <div className="w-full max-w-2xl mx-auto p-4">
+            <div className="bg-white border rounded-lg p-4">
+                <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-lg font-medium">About Me</h3>
+                    <button 
+                        onClick={isEditing ? handleSave : handleEdit}
+                        className="flex items-center gap-1 text-blue-600 hover:text-blue-800"
+                    >
+                        <MdEdit size={20} />
+                        {isEditing ? 'Save' : 'Edit'}
+                    </button>
                 </div>
-                <div className="mt-2">
-                    {
-                        about &&
-                        <p className="py-2 break-words">
-                            {about}
-                        </p>
-                    }
-                </div>
+                
+                {isEditing ? (
+                    <textarea
+                        value={about}
+                        onChange={(e) => dispatch(setAboutMe(e.target.value))}
+                        placeholder="Write about yourself..."
+                        className="w-full p-3 border rounded-md resize-none"
+                        rows={4}
+                    />
+                ) : (
+                    <p className="text-gray-700 leading-relaxed">
+                        {about || 'Click Edit to add information about yourself.'}
+                    </p>
+                )}
             </div>
-
-            {show && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="bg-white rounded shadow-lg w-11/12 md:w-2/3 max-w-2xl">
-                        <div className="flex justify-between items-center border-b px-4 py-2">
-                            <h3 className="font-semibold">About Me</h3>
-                            <MdClose size={30} className="rounded edit cursor-pointer" onClick={handleClose} />
-                        </div>
-                        <div className="p-4">
-                            <form noValidate>
-                                <div className="mb-3">
-                                    <textarea required rows={6} placeholder="Write about yourself" value={about} onChange={handleAbout} className="w-full border rounded p-2" />
-                                </div>
-                            </form>
-                        </div>
-                        <div className="flex justify-end gap-2 border-t px-4 py-2">
-                            <button type="button" className="rounded edit px-2 cursor-pointer" onClick={handleClose}>
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
-    )
+    );
 }
 
 export default AboutMe;
