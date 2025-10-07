@@ -37,7 +37,9 @@ function AboutMe() {
                     </button>
                 </div>
 
-               
+                <p className="text-gray-700 whitespace-pre-line">
+                    {about}
+                </p>
             </div>
 
             {show && (
