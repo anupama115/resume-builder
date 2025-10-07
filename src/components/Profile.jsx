@@ -50,9 +50,7 @@ function Profile() {
                         <p className="text-gray-500 text-sm">{profile.tagline || "Add a tagline to describe yourself"}</p>
                     </div>
                 </div>
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded" onClick={() => setShow(true)}>
-                    <MdEdit size={20} />
-                </button>
+                {/* Edit moved next to Contact in the links row below */}
             </div>
             
             {/* Contact Information */}
@@ -68,6 +66,10 @@ function Profile() {
                         <span className="text-sm text-gray-700">{link.label}</span>
                     </div>
                 ))}
+                <button type="button" onClick={() => setShow(true)} className="flex items-center gap-1 text-blue-600 hover:text-blue-800">
+                    <MdEdit size={20} />
+                    <span className="text-sm">Edit</span>
+                </button>
             </div>
             {show && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

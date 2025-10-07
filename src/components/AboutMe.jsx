@@ -37,9 +37,7 @@ function AboutMe() {
                     </button>
                 </div>
 
-                <p className="text-gray-700 leading-relaxed">
-                    {about || 'Click Edit to add information about yourself.'}
-                </p>
+               
             </div>
 
             {show && (

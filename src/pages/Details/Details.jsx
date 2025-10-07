@@ -9,8 +9,8 @@ const Details = () => {
     return (
         <>
             {/* Top image */}
-            <div className="p-0 top-image w-full" />
-            <div className='container mx-auto px-4'>
+            <div className="p-0 w-full" />
+            <div className='w-full max-w-3xl mx-auto p-4'>
 
                 {/* Profile section */}
                 <Profile />
