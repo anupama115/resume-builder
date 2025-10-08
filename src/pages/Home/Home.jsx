@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 const RESUME_TEMPLATE = {
 	id: 1,
-	name: 'Template 1',
-	description: 'Classic Resume Template',
+	name: 'Build Resume',
+	description: 'Professional Resume Template',
 	image: '/images/1.jpg',
 };
 
@@ -21,7 +21,7 @@ const TemplateCard = ({ template, onSelect }) => (
 					onClick={onSelect}
 					className="inline-flex items-center rounded-md bg-gray-800 px-5 py-3 text-white text-sm font-medium hover:bg-gray-700 transition-colors"
 				>
-					Use this Template
+					Create Resume
 				</button>
 			</div>
 		</div>
@@ -36,7 +36,7 @@ const Home = () => {
 	};
 
 	return (
-		<div className="bg-white min-h-screen">
+		<div className="bg-gray-100 min-h-screen">
 			<section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
 				<div className="grid gap-8 md:gap-10 md:grid-cols-2 items-center">
 					{/* Hero copy */}

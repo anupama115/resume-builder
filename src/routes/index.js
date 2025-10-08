@@ -3,7 +3,6 @@ import Details from "../pages/Details/Details";
 import PdfComponent from "../pages/ResumeDownload/ResumeComponent";
 import NavbarComponent from "../components/Navbar";
 
-//creating routing path
 export const routes = [
     {
         path: '/',
