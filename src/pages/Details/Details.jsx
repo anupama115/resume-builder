@@ -7,9 +7,8 @@ import Skills from '../../components/SkillBlock';
 
 const Details = () => {
     return (
-        <div className="bg-gray-100">
-            <div className="p-0 w-full" />
-            <div className='w-full max-w-4xl mx-auto p-4 sm:p-6'>
+        <div className="bg-gray-100 min-h-screen">
+            <div className='w-full max-w-4xl mx-auto p-4 sm:p-6 pt-8'>
                 <Profile />
                 <AboutMe />
                 <Experience />

@@ -14,41 +14,60 @@ function Profile() {
 
     return (
         <>
-            {/* Profile Header */}
-            <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-                <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-4 md:mb-0">
-                    <img src={file} className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white" alt="Profile" />
-                    <div className="text-center sm:text-left">
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1">{profile.name || "Your Name"}</h2>
-                        <p className="text-base sm:text-lg text-gray-600 mb-2">{profile.position || "Your Position"}</p>
-                        <p className="text-gray-500 text-sm">{profile.tagline || "Add a tagline to describe yourself"}</p>
-                    </div>
-                </div>
-            </div>
-            
-            {/* Contact Information */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                <div className="flex items-center space-x-2 text-gray-700">
-                    <img src="/images/location.svg" alt="Location" width="16" height="16" />
-                    <span className="text-sm">{profile.location || "Add your location"}</span>
+            <div className="mb-8">
+                {/* Profile Image*/}
+                <div className="text-center mb-6">
+                    <img src={file} className="w-32 h-32 rounded-lg object-cover mx-auto" alt="Profile" />
                 </div>
                 
-                {[
-                    { icon: "/images/linkedin (2).svg", label: "LinkedIn" },
-                    { icon: "/images/github.svg", label: "GitHub" },
-                    { icon: "/images/portfolio.svg", label: "Portfolio" },
-                    { icon: "/images/email.svg", label: "Email" },
-                    { icon: "/images/contact.svg", label: "Contact" }
-                ].map((link, index) => (
-                    <div key={index} className="flex items-center space-x-2 p-2 bg-gray-50 hover:bg-gray-100 rounded cursor-pointer">
-                        <img src={link.icon} alt={link.label} width="16" height="16" />
-                        <span className="text-sm text-gray-700 hidden sm:inline">{link.label}</span>
+                {/* Name and Title*/}
+                <div className="text-center mb-6">
+                    <h1 className="text-2xl font-bold text-black mb-2">{profile.name || "Your Name"}</h1>
+                    <p className="text-lg text-black mb-3">{profile.position || "Your Position"}</p>
+                    <p className="text-black max-w-md mx-auto">{profile.tagline || "Describe yourself"}</p>
+                </div>
+
+                {/* Contact Grid */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="text-center p-4 bg-gray-200 border rounded">
+                        <img src="/images/location.svg" alt="Location" width="20" height="20" className="mx-auto mb-2" />
+                        <p className="text-sm text-gray-600">Location</p>
+                        <p className="text-sm font-medium">{profile.location || "Add your location"}</p>
                     </div>
-                ))}
-                <button type="button" onClick={() => setShow(true)} className="flex items-center gap-1 text-blue-600 hover:text-blue-800 p-2">
-                    <MdEdit size={20} />
-                    <span className="text-sm hidden sm:inline">Edit</span>
-                </button>
+                    <div className="text-center bg-gray-200 p-4 border rounded">
+                        <img src="/images/email.svg" alt="Email" width="20" height="20" className="mx-auto mb-2" />
+                        <p className="text-sm text-gray-600">Email</p>
+                        <p className="text-sm font-medium">{profile.email || "your.email@example.com"}</p>
+                    </div>
+                </div>
+
+                {/* Social Links*/}
+                <div className="flex justify-center space-x-4 mb-6">
+                    {[
+                        { icon: "/images/linkedin (2).svg", label: "LinkedIn" },
+                        { icon: "/images/github.svg", label: "GitHub" },
+                        { icon: "/images/portfolio.svg", label: "Portfolio" },
+                        { icon: "/images/contact.svg", label: "Contact" }
+                    ].map((link, index) => (
+                        <div key={index} className="text-center">
+                            <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-2">
+                                <img src={link.icon} alt={link.label} width="20" height="20" />
+                            </div>
+                            <p className="text-xs text-gray-600">{link.label}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Edit Button */}
+                <div className="text-center">
+                    <button 
+                        onClick={() => setShow(true)} 
+                        className="bg-gray-800 text-white px-6 py-2 rounded-lg"
+                    >
+                        <MdEdit size={16} className="inline mr-2" />
+                        Edit Profile
+                    </button>
+                </div>
             </div>
             {show && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
@@ -65,7 +84,7 @@ function Profile() {
                                 { name: "position", placeholder: "Your Position", type: "text" },
                                 { name: "tagline", placeholder: "Describe yourself in one line", type: "text" },
                                 { name: "email", placeholder: "Email Address", type: "email" },
-                                { name: "contact", placeholder: "Contact Number", type: "text" },
+                                { name: "contact", placeholder: "Contact Number", type: "number" },
                                 { name: "github", placeholder: "GitHub Profile", type: "text" },
                                 { name: "linkedin", placeholder: "LinkedIn Profile", type: "text" },
                                 { name: "website", placeholder: "Your Portfolio Website", type: "text" }
@@ -77,7 +96,7 @@ function Profile() {
                                     placeholder={field.placeholder}
                                     value={profile[field.name] || ""}
                                     onChange={handleProfile}
-                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full p-2 border rounded"
                                 />
                             ))}
                             
