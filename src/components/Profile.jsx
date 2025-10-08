@@ -65,7 +65,7 @@ function Profile() {
                                 { name: "position", placeholder: "Your Position", type: "text" },
                                 { name: "tagline", placeholder: "Describe yourself in one line", type: "text" },
                                 { name: "email", placeholder: "Email Address", type: "email" },
-                                { name: "contact", placeholder: "Contact Number", type: "number" },
+                                { name: "contact", placeholder: "Contact Number", type: "text" },
                                 { name: "github", placeholder: "GitHub Profile", type: "text" },
                                 { name: "linkedin", placeholder: "LinkedIn Profile", type: "text" },
                                 { name: "website", placeholder: "Your Portfolio Website", type: "text" }
