@@ -3,6 +3,30 @@ html,
 body {
   font-family: "Poppins", sans-serif;
 }
+
+/* Mobile-first responsive improvements */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Improve touch targets for mobile */
+  button, .cursor-pointer {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better text sizing for mobile */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+  }
+  
+  /* Improve form inputs on mobile */
+  input, select, textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
 /* Theme variables */
 :root {
   --primary: #4f46e5; /* indigo-600 */
@@ -151,4 +175,17 @@ nav .active {
   border: 4px solid white;
   object-fit: cover;
   border-radius: 50%;
+}
+
+/* Mobile PDF improvements */
+@media (max-width: 768px) {
+  .pdf {
+    width: 100%;
+    height: auto;
+  }
+  
+  .pdf-profile-image {
+    height: 100px;
+    width: 100px;
+  }
 }

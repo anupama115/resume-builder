@@ -16,18 +16,18 @@ function Profile() {
         <>
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-                <div className="flex items-center space-x-4 mb-4 md:mb-0">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-4 md:mb-0">
                     <img src={file} className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white" alt="Profile" />
-                    <div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">{profile.name || "Your Name"}</h2>
-                        <p className="text-lg text-gray-600 mb-2">{profile.position || "Your Position"}</p>
+                    <div className="text-center sm:text-left">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1">{profile.name || "Your Name"}</h2>
+                        <p className="text-base sm:text-lg text-gray-600 mb-2">{profile.position || "Your Position"}</p>
                         <p className="text-gray-500 text-sm">{profile.tagline || "Add a tagline to describe yourself"}</p>
                     </div>
                 </div>
             </div>
             
             {/* Contact Information */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                 <div className="flex items-center space-x-2 text-gray-700">
                     <img src="/images/location.svg" alt="Location" width="16" height="16" />
                     <span className="text-sm">{profile.location || "Add your location"}</span>
@@ -42,20 +42,20 @@ function Profile() {
                 ].map((link, index) => (
                     <div key={index} className="flex items-center space-x-2 p-2 bg-gray-50 hover:bg-gray-100 rounded cursor-pointer">
                         <img src={link.icon} alt={link.label} width="16" height="16" />
-                        <span className="text-sm text-gray-700">{link.label}</span>
+                        <span className="text-sm text-gray-700 hidden sm:inline">{link.label}</span>
                     </div>
                 ))}
-                <button type="button" onClick={() => setShow(true)} className="flex items-center gap-1 text-blue-600 hover:text-blue-800">
+                <button type="button" onClick={() => setShow(true)} className="flex items-center gap-1 text-blue-600 hover:text-blue-800 p-2">
                     <MdEdit size={20} />
-                    <span className="text-sm">Edit</span>
+                    <span className="text-sm hidden sm:inline">Edit</span>
                 </button>
             </div>
             {show && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-5 w-11/12 max-w-lg max-h-screen overflow-auto">
-                        <div className="flex justify-between items-center mb-5">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-5 w-full max-w-lg max-h-[90vh] overflow-auto">
+                        <div className="flex justify-between items-center mb-4 sm:mb-5">
                             <h3 className="text-lg font-semibold">Profile Details</h3>
-                            <MdClose size={30} className="cursor-pointer" onClick={() => setShow(false)} />
+                            <MdClose size={24} className="cursor-pointer hover:text-gray-600" onClick={() => setShow(false)} />
                         </div>
 
                         <div className="space-y-3">

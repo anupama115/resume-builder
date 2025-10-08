@@ -17,4 +17,4 @@ const educationSlice = createSlice({
 })
 
 export default educationSlice.reducer;
-export const { addEducation, editEducation, removeEducation } = educationSlice.actions  //exporting actions
+export const { addEducation, editEducation, removeEducation } = educationSlice.actions

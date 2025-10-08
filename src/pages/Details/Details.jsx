@@ -10,7 +10,7 @@ const Details = () => {
         <>
             {/* Top image */}
             <div className="p-0 w-full" />
-            <div className='w-full max-w-3xl mx-auto p-4'>
+            <div className='w-full max-w-4xl mx-auto p-4 sm:p-6'>
 
                 {/* Profile section */}
                 <Profile />
@@ -24,8 +24,8 @@ const Details = () => {
 
                 <Skills />
 
-                <div className="grid grid-cols-2 mx-auto my-4 text-center max-w-xs">
-                    <NavLink className="inline-flex items-center justify-center bg-black text-white p-2 rounded" to="/preview">Preview</NavLink>
+                <div className="flex justify-center my-6">
+                    <NavLink className="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-colors w-full sm:w-auto" to="/preview">Preview Resume</NavLink>
                 </div>
 
             </div>

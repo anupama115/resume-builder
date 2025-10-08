@@ -76,24 +76,24 @@ function Experience() {
   return (
     <div className="w-full max-w-2xl mx-auto p-4">
       <div className="bg-white border rounded-lg p-4">
-        <div className="flex justify-between items-center mb-3">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 gap-2">
           <h3 className="text-lg font-medium">Experience</h3>
-          <button onClick={() => handleModal()} className="flex items-center gap-1 text-blue-600 hover:text-blue-800">
-            <MdAddCircleOutline size={20} /> Add
+          <button onClick={() => handleModal()} className="flex items-center gap-1 text-blue-600 hover:text-blue-800 w-full sm:w-auto justify-center sm:justify-start">
+            <MdAddCircleOutline size={20} /> Add Experience
           </button>
         </div>
 
         {experienceList?.map((item, id) => (
-          <div key={id} className="border-b pt-3 pb-3 flex flex-wrap">
-            <div className="w-full md:w-10/12 flex justify-start">
+          <div key={id} className="border-b pt-3 pb-3 flex flex-col sm:flex-row">
+            <div className="w-full sm:w-10/12 flex justify-start">
               <div className="px-3">
-                <h5 className="m-0">{item.title}</h5>
-                <p className="text-muted m-0">{item.company} • {item.startMonth} {item.startYear} {`${item.isWorking ? " - Present" : " - " + item.endMonth + " " + item.endYear}`}</p>
-                <p className="text-muted m-0">{item.location}</p>
-                <p className="mt-1">{item.description}</p>
+                <h5 className="m-0 text-base sm:text-lg">{item.title}</h5>
+                <p className="text-muted m-0 text-sm">{item.company} • {item.startMonth} {item.startYear} {`${item.isWorking ? " - Present" : " - " + item.endMonth + " " + item.endYear}`}</p>
+                <p className="text-muted m-0 text-sm">{item.location}</p>
+                <p className="mt-1 text-sm sm:text-base">{item.description}</p>
               </div>
             </div>
-            <div className="w-full md:w-2/12 flex flex-wrap justify-end gap-2">
+            <div className="w-full sm:w-2/12 flex justify-end gap-2 mt-2 sm:mt-0">
               <MdEdit size={24} className="rounded edit cursor-pointer" onClick={() => handleModal(id)} />
               <MdDelete size={24} className="rounded edit cursor-pointer" onClick={() => setDeleteId(id)} />
             </div>
@@ -102,17 +102,17 @@ function Experience() {
       </div>
 
       {modal.show && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setModal({ show: false, editId: null })}></div>
-          <div className="relative bg-white rounded shadow-lg w-11/12 md:w-2/3 max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b p-3">
+          <div className="relative bg-white rounded shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b p-3 sm:p-4">
               <h3 className="text-lg font-semibold">Experience</h3>
-              <button onClick={() => setModal({ show: false, editId: null })} className="text-gray-500 hover:text-gray-700">✕</button>
+              <button onClick={() => setModal({ show: false, editId: null })} className="text-gray-500 hover:text-gray-700 text-xl">✕</button>
             </div>
-            <form onSubmit={handleSubmit} className="p-4">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6">
               {fieldConfigs.map(field => (
                 <div key={field.name} className="mb-3">
-                  <label className="block text-sm font-medium">{field.label}</label>
+                  <label className="block text-sm font-medium mb-1">{field.label}</label>
                   <input required type="text" placeholder={field.placeholder} name={field.name} 
                     value={form[field.name]} onChange={(e) => setForm({...form, [e.target.name]: e.target.value})} 
                     className={inputClass} />
@@ -125,10 +125,10 @@ function Experience() {
                   I am currently working in this role
                 </label>
               </div>
-              <div className="mb-3">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <div className="mb-1">
+                    <div className="mb-2">
                       <label className="block text-sm font-medium">Start Month - Year</label>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -145,7 +145,7 @@ function Experience() {
                     </div>
                   </div>
                   <div>
-                    <div className="mb-1">
+                    <div className="mb-2">
                       <label className="block text-sm font-medium">End Month - Year</label>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -172,13 +172,13 @@ function Experience() {
       )}
 
       {deleteId !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center text-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center text-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setDeleteId(null)}></div>
-          <div className="relative bg-white rounded shadow-lg w-11/12 sm:w-96 p-6">
-            <h4 className="text-lg font-semibold mb-4">Are you sure?</h4>
+          <div className="relative bg-white rounded shadow-lg w-full max-w-sm p-6">
+            <h4 className="text-lg font-semibold mb-4">Are you sure you want to delete this experience?</h4>
             <div className="flex items-center justify-center gap-6">
-              <button onClick={handleDelete} className="text-green-600 hover:text-green-800">✓</button>
-              <button onClick={() => setDeleteId(null)} className="text-red-600 hover:text-red-800">✕</button>
+              <button onClick={handleDelete} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Yes</button>
+              <button onClick={() => setDeleteId(null)} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">No</button>
             </div>
           </div>
         </div>
