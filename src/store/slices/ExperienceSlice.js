@@ -8,6 +8,7 @@ const experienceSlice = createSlice({
             state.push(action.payload);
         },
         editExperience(state, action) {
+            /*state.splic(index,deleteCount,newItem) */
             state.splice(action.payload.id, 1, action.payload)
         },
         removeExperience(state, action) {
